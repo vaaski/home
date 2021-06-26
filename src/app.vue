@@ -1,13 +1,13 @@
 <template>
   <main class="h-full w-full">
-    <router-view id="rw" class="w-full"></router-view>
-    <nav-bar id="nav" />
+    <RouterView id="rw" class="w-full"></RouterView>
+    <NavBar id="nav" />
   </main>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"
-import NavBar from "@/components/nav-bar.vue"
+import NavBar from "@/components/NavBar.vue"
 
 export default defineComponent({
   components: { NavBar },
