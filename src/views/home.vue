@@ -1,5 +1,5 @@
 <template>
-  <div class="home">home</div>
+  <div class="flex justify-center items-center text-5xl">home</div>
 </template>
 
 <script lang="ts">
