@@ -1,8 +1,5 @@
 <template>
-  <div class="flex justify-center items-center text-5xl">
-    home
-    <SvgIcon name="house" />
-  </div>
+  <div class="flex justify-center items-center text-5xl">home</div>
 </template>
 
 <script lang="ts">

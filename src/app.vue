@@ -1,6 +1,6 @@
 <template>
   <main class="h-full w-full">
-    <RouterView id="rw" class="w-full"></RouterView>
+    <RouterView id="rw" class="w-full flex items-end"></RouterView>
     <NavBar id="nav" />
   </main>
 </template>

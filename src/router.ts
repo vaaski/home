@@ -3,8 +3,14 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/home",
-    name: "home",
-    component: () => import("./views/Home.vue"),
+    redirect: "/plugs",
+    // name: "home",
+    // component: () => import("./views/Home.vue"),
+  },
+  {
+    path: "/plugs",
+    name: "plugs",
+    component: () => import("./views/Plugs.vue"),
   },
   {
     path: "/:pathMatch(.*)*",
