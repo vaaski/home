@@ -1,7 +1,7 @@
 <template>
   <div class="plug" :class="{ enabled }">
     <div class="state">
-      <SvgIcon :name="icon" :class="{ spin }" />
+      <SvgIcon :name="icon" :class="{ spin }" :style="iconSpin" />
       <transition name="slide">
         <span key="on" v-if="enabled">on</span>
         <span key="off" v-else>off</span>
@@ -28,7 +28,6 @@ export default defineComponent({
     },
   },
   setup(props) {
-    // const { plug } = toRefs(props)
     const { name, enabled, icon, offIcon, spin } = toRefs(props.plug)
 
     return {
@@ -40,7 +39,10 @@ export default defineComponent({
         if (enabled.value) return icon?.value ?? "power"
         return offIcon?.value ?? icon?.value ?? "power_off"
       }),
-      spin: computed(() => spin?.value && enabled.value),
+      spin,
+      iconSpin: computed(() => ({
+        "animation-play-state": enabled.value ? "running" : "paused",
+      })),
       name,
       enabled,
     }
@@ -51,10 +53,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 @keyframes spin {
   0% {
-    transform: rotate(0deg);
+    transform: rotate3d(0, 0, 1, 0deg);
   }
   100% {
-    transform: rotate(-359deg);
+    transform: rotate3d(0, 0, 1, -359deg);
   }
 }
 

@@ -15,7 +15,12 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style>
+* {
+  user-select: none;
+  outline: none;
+}
+
 #rw {
   height: calc(100% - 4rem);
   z-index: 10;

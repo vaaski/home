@@ -35,5 +35,7 @@ svg {
   font-size: 24px;
   height: 1em;
   width: 1em;
+  vertical-align: middle;
+  transform-origin: center;
 }
 </style>
