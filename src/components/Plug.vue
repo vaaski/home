@@ -53,10 +53,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 @keyframes spin {
   0% {
-    transform: rotate3d(0, 0, 1, 0deg);
+    transform: rotate(0deg);
   }
   100% {
-    transform: rotate3d(0, 0, 1, -359deg);
+    transform: rotate(-359deg);
   }
 }
 

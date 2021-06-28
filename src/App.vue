@@ -23,6 +23,8 @@ html {
 * {
   user-select: none;
   outline: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 #rw {
