@@ -16,19 +16,19 @@
 <script lang="ts">
 import { Plug } from "$/Plugs"
 
-import { computed, defineComponent, PropType, toRefs, watch } from "vue"
+import { computed, defineComponent, PropType, toRefs } from "vue"
 import SvgIcon from "@/components/SvgIcon.vue"
 
 export default defineComponent({
   components: { SvgIcon },
   props: {
-    plug: {
+    qt: {
       type: Object as PropType<Plug>,
       required: true,
     },
   },
   setup(props) {
-    const { name, enabled, icon, offIcon, spin } = toRefs(props.plug)
+    const { name, enabled, icon, offIcon, spin } = toRefs(props.qt)
 
     return {
       icon: computed(() => {
@@ -61,8 +61,13 @@ export default defineComponent({
 }
 
 .plug {
+  width: calc(50% - 0.5 * var(--gap));
+  max-height: 100px;
+  overflow: hidden;
+
   border-radius: 0.5rem;
-  padding: 1rem;
+  padding: 1.25rem 1rem;
+
   background: rgba(0, 0, 0, 0.125);
   transition: 100ms;
 
@@ -100,6 +105,18 @@ export default defineComponent({
   &.enabled {
     background: var(--text);
     color: var(--background);
+  }
+
+  &.expanded {
+    width: 100%;
+    padding: 15rem 1rem;
+  }
+
+  &.hide {
+    max-height: 0;
+    width: 0;
+    padding: 0;
+    opacity: 0;
   }
 }
 </style>

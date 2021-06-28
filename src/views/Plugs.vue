@@ -1,12 +1,14 @@
 <template>
   <div>
     <div class="plugs">
-      <div v-for="(plugRow, i) in plugRender" :key="i" class="row">
+      <div v-for="(QTRow, i) in plugRender" :key="i" class="row">
         <Plug
-          v-for="plug in plugRow"
-          :key="plug.name"
-          :plug="plug"
-          @click="togglePlug(plug.id)"
+          v-for="QT in QTRow"
+          :key="QT.name"
+          :qt="QT"
+          @click="toggleQT(QT.id)"
+          @contextmenu="expandQT(QT.id, $event)"
+          :class="{ hide: expandedQT && expandedQT !== QT.id, expanded: expandedQT === QT.id }"
         />
       </div>
     </div>
@@ -20,54 +22,63 @@ import { bottomColon } from "@/util"
 
 import type { Plug as PlugType } from "$/Plugs"
 
+const TEMP_PLUGS: PlugType[] = [
+  {
+    name: "TV",
+    icon: "cast_connected",
+    offIcon: "cast",
+    enabled: true,
+    id: Math.random().toString().slice(2),
+  },
+  {
+    name: "fan",
+    icon: "fan",
+    spin: true,
+    enabled: false,
+    id: Math.random().toString().slice(2),
+  },
+  {
+    name: "A/C",
+    icon: "fan",
+    spin: true,
+    enabled: true,
+    id: Math.random().toString().slice(2),
+  },
+  {
+    name: "bed charger",
+    enabled: false,
+    id: Math.random().toString().slice(2),
+  },
+  {
+    name: "desk mic",
+    enabled: false,
+    id: Math.random().toString().slice(2),
+  },
+]
+
 export default defineComponent({
   components: { Plug },
   setup() {
-    const TEMP_PLUGS: PlugType[] = [
-      {
-        name: "TV",
-        icon: "cast_connected",
-        offIcon: "cast",
-        enabled: true,
-        id: Math.random().toString().slice(2),
-      },
-      {
-        name: "fan",
-        icon: "fan",
-        spin: true,
-        enabled: false,
-        id: Math.random().toString().slice(2),
-      },
-      {
-        name: "A/C",
-        icon: "fan",
-        spin: true,
-        enabled: true,
-        id: Math.random().toString().slice(2),
-      },
-      {
-        name: "bed charger",
-        enabled: false,
-        id: Math.random().toString().slice(2),
-      },
-      {
-        name: "desk mic",
-        icon: "outlet",
-        enabled: false,
-        id: Math.random().toString().slice(2),
-      },
-    ]
-    const plugs = ref(TEMP_PLUGS)
+    const QTs = ref(TEMP_PLUGS)
 
-    const togglePlug = (id: string) => {
+    const toggleQT = (id: string) => {
       //! temporary
-      const p = plugs.value.find(p => p.id === id)
+      const p = QTs.value.find(p => p.id === id)
       if (p) p.enabled = !p.enabled
     }
 
+    const expandedQT = ref("")
+    const expandQT = (id: string, event: PointerEvent) => {
+      event.preventDefault()
+      if (expandedQT.value === id) expandedQT.value = ""
+      else expandedQT.value = id
+    }
+
     return {
-      plugRender: computed(() => bottomColon(plugs.value)),
-      togglePlug,
+      plugRender: computed(() => bottomColon(QTs.value)),
+      toggleQT,
+      expandedQT,
+      expandQT,
     }
   },
 })
@@ -85,11 +96,10 @@ export default defineComponent({
 
   > .row {
     display: flex;
+    justify-content: space-between;
     gap: var(--gap);
-
-    > .plug {
-      width: calc(50% - var(--gap));
-    }
+    overflow: hidden;
+    max-width: calc(100%);
   }
 }
 </style>

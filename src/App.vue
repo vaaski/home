@@ -16,6 +16,10 @@ export default defineComponent({
 </script>
 
 <style>
+html {
+  overflow: hidden;
+}
+
 * {
   user-select: none;
   outline: none;
