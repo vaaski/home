@@ -6,12 +6,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, provide } from "vue"
+import Bowser from "bowser"
 import NavBar from "@/components/NavBar.vue"
 
 export default defineComponent({
   components: { NavBar },
-  setup() {},
+  setup() {
+    const bowser = Bowser.getParser(window.navigator.userAgent)
+    let isSafari = false
+    if (bowser.getBrowser().name === "Safari") isSafari = true
+
+    provide("isSafari", isSafari)
+  },
 })
 </script>
 

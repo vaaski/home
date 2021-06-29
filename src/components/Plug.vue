@@ -1,5 +1,5 @@
 <template>
-  <div class="plug" :class="{ enabled }">
+  <a class="plug" :class="{ enabled }">
     <div class="state">
       <SvgIcon :name="icon" :class="{ spin }" :style="iconSpin" />
       <transition name="slide">
@@ -10,7 +10,7 @@
     <div class="name">
       <span>{{ name }}</span>
     </div>
-  </div>
+  </a>
 </template>
 
 <script lang="ts">

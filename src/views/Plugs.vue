@@ -7,7 +7,7 @@
           :key="QT.name"
           :qt="QT"
           @click="toggleQT(QT.id)"
-          @click.right="expandQT(QT.id, $event)"
+          @contextmenu="expandQT(QT.id, $event)"
           @touchstart="longPress(QT.id)"
           @touchend="cancelLongPress"
           :class="{ hide: expandedQT && expandedQT !== QT.id, expanded: expandedQT === QT.id }"
@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue"
+import { computed, defineComponent, inject, ref } from "vue"
 import Plug from "@/components/Plug.vue"
 import { bottomColon } from "@/util"
 
@@ -62,6 +62,7 @@ export default defineComponent({
   components: { Plug },
   setup() {
     const QTs = ref(TEMP_PLUGS)
+    const isSafari = inject<boolean>("isSafari")
 
     const toggleQT = (id: string) => {
       //! temporary
@@ -77,6 +78,7 @@ export default defineComponent({
     }
     let pressed = 0
     const longPress = (id: string) => {
+      if (!isSafari) return
       pressed = setTimeout(() => {
         expandQT(id)
         window.navigator.vibrate?.(1)
