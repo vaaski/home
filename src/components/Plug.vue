@@ -1,5 +1,5 @@
 <template>
-  <a class="plug" :class="{ enabled }">
+  <div class="plug" :class="{ enabled }" ref="target">
     <div class="state">
       <SvgIcon :name="icon" :class="{ spin }" :style="iconSpin" />
       <transition name="slide">
@@ -10,27 +10,34 @@
     <div class="name">
       <span>{{ name }}</span>
     </div>
-  </a>
+  </div>
 </template>
 
 <script lang="ts">
-import { Plug } from "$/Plugs"
+import type { Plug } from "$/Plugs"
 
-import { computed, defineComponent, PropType, toRefs } from "vue"
 import SvgIcon from "@/components/SvgIcon.vue"
+import { computed, defineComponent, PropType, ref, toRefs } from "vue"
+import { onClickOutside } from "@vueuse/core"
 
 export default defineComponent({
   components: { SvgIcon },
+  emits: ["clickOutside"],
   props: {
     qt: {
       type: Object as PropType<Plug>,
       required: true,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const { name, enabled, icon, offIcon, spin } = toRefs(props.qt)
 
+    const target = ref<HTMLElement | null>(null)
+
+    onClickOutside(target, e => emit("clickOutside", e))
+
     return {
+      target,
       icon: computed(() => {
         if (enabled.value) return icon?.value ?? "power"
         return offIcon?.value ?? icon?.value ?? "power_off"
@@ -101,9 +108,7 @@ export default defineComponent({
 
   &.expanded {
     width: 100%;
-    // padding: 15rem 1rem;
     border: 1px solid currentColor;
-    background: transparent;
   }
 
   &.enabled {

@@ -10,6 +10,7 @@
           @contextmenu="expandQT(QT.id, $event)"
           @touchstart="longPress(QT.id)"
           @touchend="cancelLongPress"
+          @clickOutside="clickOutside(QT.id)"
           :class="{ hide: expandedQT && expandedQT !== QT.id, expanded: expandedQT === QT.id }"
         />
       </div>
@@ -76,6 +77,10 @@ export default defineComponent({
       if (expandedQT.value === id) expandedQT.value = ""
       else expandedQT.value = id
     }
+    const clickOutside = (id: string) => {
+      if (expandedQT.value === id) expandedQT.value = ""
+    }
+
     let pressed = 0
     const longPress = (id: string) => {
       if (!isSafari) return
@@ -93,6 +98,7 @@ export default defineComponent({
       expandQT,
       longPress,
       cancelLongPress,
+      clickOutside,
     }
   },
 })
