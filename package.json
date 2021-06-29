@@ -11,7 +11,7 @@
     "commit": "cz -S",
     "back:build": "rimraf lib && tsc -p tsconfig.backend.json",
     "back:dev": "nodemon",
-    "front:dev": "vite --port 8080",
+    "front:dev": "vite --port 8080 --host",
     "front:build": "vue-tsc --noEmit && vite build"
   },
   "files": [

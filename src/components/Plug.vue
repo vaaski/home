@@ -32,10 +32,6 @@ export default defineComponent({
 
     return {
       icon: computed(() => {
-        // if (!icon?.value) return "outlet"
-        // if (!offIcon?.value || enabled.value) return icon.value
-        // return offIcon.value
-
         if (enabled.value) return icon?.value ?? "power"
         return offIcon?.value ?? icon?.value ?? "power_off"
       }),
@@ -69,7 +65,8 @@ export default defineComponent({
   padding: 1.25rem 1rem;
 
   background: rgba(0, 0, 0, 0.125);
-  transition: 100ms;
+  transition: var(--expand-transition);
+  border: 1px solid transparent;
 
   .state {
     margin-bottom: 0.25rem;
@@ -102,14 +99,16 @@ export default defineComponent({
     }
   }
 
+  &.expanded {
+    width: 100%;
+    // padding: 15rem 1rem;
+    border: 1px solid currentColor;
+    background: transparent;
+  }
+
   &.enabled {
     background: var(--text);
     color: var(--background);
-  }
-
-  &.expanded {
-    width: 100%;
-    padding: 15rem 1rem;
   }
 
   &.hide {
@@ -117,6 +116,7 @@ export default defineComponent({
     width: 0;
     padding: 0;
     opacity: 0;
+    // border: 0px solid transparent;
   }
 }
 </style>

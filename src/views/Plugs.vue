@@ -1,13 +1,15 @@
 <template>
   <div>
-    <div class="plugs">
+    <div class="plugs" :class="{ expanded: expandedQT }">
       <div v-for="(QTRow, i) in plugRender" :key="i" class="row">
         <Plug
           v-for="QT in QTRow"
           :key="QT.name"
           :qt="QT"
           @click="toggleQT(QT.id)"
-          @contextmenu="expandQT(QT.id, $event)"
+          @click.right="expandQT(QT.id, $event)"
+          @touchstart="longPress(QT.id)"
+          @touchend="cancelLongPress"
           :class="{ hide: expandedQT && expandedQT !== QT.id, expanded: expandedQT === QT.id }"
         />
       </div>
@@ -68,17 +70,27 @@ export default defineComponent({
     }
 
     const expandedQT = ref("")
-    const expandQT = (id: string, event: PointerEvent) => {
-      event.preventDefault()
+    const expandQT = (id: string, event?: PointerEvent) => {
+      event?.preventDefault()
       if (expandedQT.value === id) expandedQT.value = ""
       else expandedQT.value = id
     }
+    let pressed = 0
+    const longPress = (id: string) => {
+      pressed = setTimeout(() => {
+        expandQT(id)
+        window.navigator.vibrate?.(1)
+      }, 475)
+    }
+    const cancelLongPress = () => clearTimeout(pressed)
 
     return {
       plugRender: computed(() => bottomColon(QTs.value)),
       toggleQT,
       expandedQT,
       expandQT,
+      longPress,
+      cancelLongPress,
     }
   },
 })
@@ -87,19 +99,29 @@ export default defineComponent({
 <style lang="scss" scoped>
 .plugs {
   --gap: 0.5rem;
+  --expand-transition: 100ms;
   width: 100%;
   padding: var(--gap);
 
   display: flex;
   flex-direction: column;
   gap: var(--gap);
+  transition: var(--expand-transition);
 
   > .row {
+    transition: var(--expand-transition);
+    gap: var(--gap);
     display: flex;
     justify-content: space-between;
-    gap: var(--gap);
     overflow: hidden;
     max-width: calc(100%);
+  }
+
+  &.expanded {
+    gap: 0;
+    > .row {
+      gap: 0;
+    }
   }
 }
 </style>
