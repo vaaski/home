@@ -11,6 +11,7 @@ const TEMP_QTS: QuickToggleType[] = [
     icon: "cast_connected",
     offIcon: "cast",
     enabled: true,
+    type: "plug",
     id: Math.random().toString().slice(2),
   },
   {
@@ -18,6 +19,7 @@ const TEMP_QTS: QuickToggleType[] = [
     icon: "fan",
     spin: true,
     enabled: false,
+    type: "plug",
     id: Math.random().toString().slice(2),
   },
   {
@@ -25,16 +27,19 @@ const TEMP_QTS: QuickToggleType[] = [
     icon: "fan",
     spin: true,
     enabled: true,
+    type: "plug",
     id: Math.random().toString().slice(2),
   },
   {
     name: "bed charger",
     enabled: false,
+    type: "plug",
     id: Math.random().toString().slice(2),
   },
   {
     name: "desk mic",
     enabled: false,
+    type: "plug",
     id: Math.random().toString().slice(2),
   },
 ]
@@ -94,7 +99,7 @@ export default defineComponent({
           :qt="QT"
           @click="toggleQT(QT.id)"
           @contextmenu="expandQT(QT.id, $event)"
-          @touchstart="longPress(QT.id)"
+          @touchstart.passive="longPress(QT.id)"
           @touchend="cancelLongPress"
           @clickOutside="clickOutside(QT.id)"
           :class="{ hide: expandedQT && expandedQT !== QT.id, expanded: expandedQT === QT.id }"

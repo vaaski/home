@@ -8,6 +8,19 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <title>hctrl</title>
+    <script>
+      window.onload = () => {
+        const dark = window.matchMedia("(prefers-color-scheme:dark)")
+        const activateDarkMode = bool => {
+          const el = window.document.documentElement
+          el.classList.add(bool ? "dark" : "light")
+          el.classList.remove(bool ? "light" : "dark")
+        }
+
+        activateDarkMode(dark.matches)
+        dark.onchange = ({ matches }) => activateDarkMode(matches)
+      }
+    </script>
   </head>
   <body class="bg-background text-text h-full w-full">
     <div id="app" class="h-full w-full"></div>

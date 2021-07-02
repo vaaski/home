@@ -1,7 +1,21 @@
 html {
-  --background: #462033;
-  --text: #ede5a6;
-  --accent-1: #498467;
-  --accent-2: #52b788;
-  --accent-3: #b2d3a8;
+  --background: hsl(330, 37%, 20%);
+  --background-dark: hsl(330, 37%, 18%);
+
+  --text: hsl(53, 66%, 79%);
+
+  --accent-1: hsl(151, 29%, 40%);
+  --accent-2: hsl(152, 41%, 52%);
+  --accent-3: hsl(106, 33%, 74%);
+}
+
+html.light {
+  --background: hsl(210, 12%, 97%);
+  --background-dark: hsl(210, 12%, 99%);
+
+  --text: hsl(207, 95%, 8%);
+
+  --accent-1: #20a4f3;
+  --accent-2: #ff3366;
+  --accent-3: #2ec4b6;
 }

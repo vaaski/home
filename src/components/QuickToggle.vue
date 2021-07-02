@@ -71,7 +71,7 @@ export default defineComponent({
   border-radius: 0.5rem;
   padding: 1.25rem 1rem;
 
-  background: rgba(0, 0, 0, 0.125);
+  background: var(--background-dark);
   transition: var(--expand-transition);
   border: 1px solid transparent;
 
@@ -122,7 +122,7 @@ export default defineComponent({
     width: 0;
     padding: 0;
     opacity: 0;
-    // border: 0px solid transparent;
+    border: 0px solid transparent;
   }
 }
 </style>
