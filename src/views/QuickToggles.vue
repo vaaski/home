@@ -1,31 +1,11 @@
-<template>
-  <div>
-    <div class="plugs" :class="{ expanded: expandedQT }">
-      <div v-for="(QTRow, i) in plugRender" :key="i" class="row">
-        <Plug
-          v-for="QT in QTRow"
-          :key="QT.name"
-          :qt="QT"
-          @click="toggleQT(QT.id)"
-          @contextmenu="expandQT(QT.id, $event)"
-          @touchstart="longPress(QT.id)"
-          @touchend="cancelLongPress"
-          @clickOutside="clickOutside(QT.id)"
-          :class="{ hide: expandedQT && expandedQT !== QT.id, expanded: expandedQT === QT.id }"
-        />
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { computed, defineComponent, inject, ref } from "vue"
-import Plug from "@/components/Plug.vue"
+import QuickToggle from "@/components/QuickToggle.vue"
 import { bottomColon } from "@/util"
 
-import type { Plug as PlugType } from "$/Plugs"
+import type { QuickToggle as QuickToggleType } from "$/QuickToggle"
 
-const TEMP_PLUGS: PlugType[] = [
+const TEMP_QTS: QuickToggleType[] = [
   {
     name: "TV",
     icon: "cast_connected",
@@ -60,9 +40,9 @@ const TEMP_PLUGS: PlugType[] = [
 ]
 
 export default defineComponent({
-  components: { Plug },
+  components: { QuickToggle },
   setup() {
-    const QTs = ref(TEMP_PLUGS)
+    const QTs = ref(TEMP_QTS)
     const isSafari = inject<boolean>("isSafari")
 
     const toggleQT = (id: string) => {
@@ -92,7 +72,7 @@ export default defineComponent({
     const cancelLongPress = () => clearTimeout(pressed)
 
     return {
-      plugRender: computed(() => bottomColon(QTs.value)),
+      qtRender: computed(() => bottomColon(QTs.value)),
       toggleQT,
       expandedQT,
       expandQT,
@@ -104,8 +84,28 @@ export default defineComponent({
 })
 </script>
 
+<template>
+  <div>
+    <div class="qts" :class="{ expanded: expandedQT }">
+      <div v-for="(QTRow, i) in qtRender" :key="i" class="row">
+        <QuickToggle
+          v-for="QT in QTRow"
+          :key="QT.name"
+          :qt="QT"
+          @click="toggleQT(QT.id)"
+          @contextmenu="expandQT(QT.id, $event)"
+          @touchstart="longPress(QT.id)"
+          @touchend="cancelLongPress"
+          @clickOutside="clickOutside(QT.id)"
+          :class="{ hide: expandedQT && expandedQT !== QT.id, expanded: expandedQT === QT.id }"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
-.plugs {
+.qts {
   --gap: 0.5rem;
   --expand-transition: 100ms;
   width: 100%;

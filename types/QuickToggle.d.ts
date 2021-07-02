@@ -1,4 +1,4 @@
-export interface Plug {
+export interface QuickToggle {
   id: string
   name: string
   enabled: boolean

@@ -1,5 +1,5 @@
 <template>
-  <div class="plug" :class="{ enabled }" ref="target">
+  <div class="qt" :class="{ enabled }" ref="target">
     <div class="state">
       <SvgIcon :name="icon" :class="{ spin }" :style="iconSpin" />
       <transition name="slide">
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import type { Plug } from "$/Plugs"
+import type { QuickToggle } from "$/QuickToggle"
 
 import SvgIcon from "@/components/SvgIcon.vue"
 import { computed, defineComponent, PropType, ref, toRefs } from "vue"
@@ -25,7 +25,7 @@ export default defineComponent({
   emits: ["clickOutside"],
   props: {
     qt: {
-      type: Object as PropType<Plug>,
+      type: Object as PropType<QuickToggle>,
       required: true,
     },
   },
@@ -63,7 +63,7 @@ export default defineComponent({
   }
 }
 
-.plug {
+.qt {
   width: calc(50% - 0.5 * var(--gap));
   max-height: 100px;
   overflow: hidden;
@@ -109,6 +109,7 @@ export default defineComponent({
   &.expanded {
     width: 100%;
     border: 1px solid currentColor;
+    padding-bottom: 500px;
   }
 
   &.enabled {
