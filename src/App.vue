@@ -23,8 +23,10 @@ export default defineComponent({
 </script>
 
 <style>
-html {
+:root {
   overflow: hidden;
+
+  --nav-height: 4rem;
 }
 
 * {
@@ -35,7 +37,7 @@ html {
 }
 
 #rw {
-  height: calc(100% - 4rem);
+  height: calc(100% - var(--nav-height));
   z-index: 10;
 }
 

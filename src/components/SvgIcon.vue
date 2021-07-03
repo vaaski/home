@@ -31,7 +31,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-svg {
+:where(svg) {
   font-size: 24px;
   height: 1em;
   width: 1em;
