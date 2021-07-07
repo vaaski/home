@@ -1,57 +1,49 @@
+<script setup lang="ts">
+import type { QuickToggle } from "$/QuickToggle"
+import type { PropType } from "vue"
+
+import SvgIcon from "@/components/SvgIcon.vue"
+import { computed, defineEmit, defineProps, ref, toRefs } from "vue"
+import { onClickOutside } from "@vueuse/core"
+
+const props = defineProps({
+  qt: {
+    type: Object as PropType<QuickToggle>,
+    required: true,
+  },
+})
+
+const { name, enabled, icon, offIcon, spin } = toRefs(props.qt)
+
+const emit = defineEmit(["clickOutside"])
+
+const target = ref<HTMLElement | null>(null)
+onClickOutside(target, e => emit("clickOutside", e))
+
+const renderedIcon = computed(() => {
+  if (enabled.value) return icon?.value ?? "power"
+  return offIcon?.value ?? icon?.value ?? "power_off"
+})
+
+const iconSpin = computed(() => ({
+  "animation-play-state": enabled.value ? "running" : "paused",
+}))
+</script>
+
 <template>
   <div class="qt" :class="{ enabled }" ref="target">
     <div class="state">
-      <SvgIcon :name="icon" :class="{ spin }" :style="iconSpin" />
-      <transition name="slide">
+      <SvgIcon :name="renderedIcon" :class="{ spin }" :style="iconSpin" />
+      <Transition name="slide">
         <span key="on" v-if="enabled">on</span>
         <span key="off" v-else>off</span>
-      </transition>
+      </Transition>
     </div>
     <div class="name">
       <span>{{ name }}</span>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import type { QuickToggle } from "$/QuickToggle"
-
-import SvgIcon from "@/components/SvgIcon.vue"
-import { computed, defineComponent, PropType, ref, toRefs } from "vue"
-import { onClickOutside } from "@vueuse/core"
-
-export default defineComponent({
-  components: { SvgIcon },
-  emits: ["clickOutside"],
-  props: {
-    qt: {
-      type: Object as PropType<QuickToggle>,
-      required: true,
-    },
-  },
-  setup(props, { emit }) {
-    const { name, enabled, icon, offIcon, spin } = toRefs(props.qt)
-
-    const target = ref<HTMLElement | null>(null)
-
-    onClickOutside(target, e => emit("clickOutside", e))
-
-    return {
-      target,
-      icon: computed(() => {
-        if (enabled.value) return icon?.value ?? "power"
-        return offIcon?.value ?? icon?.value ?? "power_off"
-      }),
-      spin,
-      iconSpin: computed(() => ({
-        "animation-play-state": enabled.value ? "running" : "paused",
-      })),
-      name,
-      enabled,
-    }
-  },
-})
-</script>
 
 <style lang="scss" scoped>
 @keyframes spin {

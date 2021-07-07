@@ -1,9 +1,9 @@
-<script lang="ts">
-import { computed, defineComponent, inject, ref } from "vue"
+<script setup lang="ts">
+import type { QuickToggle as QuickToggleType } from "$/QuickToggle"
+
+import { computed, inject, ref } from "vue"
 import QuickToggle from "@/components/QuickToggle.vue"
 import { bottomColon } from "@/util"
-
-import type { QuickToggle as QuickToggleType } from "$/QuickToggle"
 
 const TEMP_QTS: QuickToggleType[] = [
   {
@@ -44,49 +44,42 @@ const TEMP_QTS: QuickToggleType[] = [
   },
 ]
 
-export default defineComponent({
-  components: { QuickToggle },
-  setup() {
-    const QTs = ref(TEMP_QTS)
-    const isSafari = inject<boolean>("isSafari")
+const QTs = ref(TEMP_QTS)
+const isSafari = inject<boolean>("isSafari")
 
-    const toggleQT = (id: string) => {
-      //! temporary
-      const p = QTs.value.find(p => p.id === id)
-      if (p) p.enabled = !p.enabled
-    }
+const toggleQT = (id: string) => {
+  //! temporary
+  const p = QTs.value.find(p => p.id === id)
+  if (p) p.enabled = !p.enabled
+}
 
-    const expandedQT = ref("")
-    const expandQT = (id: string, event?: PointerEvent) => {
-      event?.preventDefault()
-      if (expandedQT.value === id) expandedQT.value = ""
-      else expandedQT.value = id
-    }
-    const clickOutside = (id: string) => {
-      if (expandedQT.value === id) expandedQT.value = ""
-    }
+//* ----
 
-    let pressed = 0
-    const longPress = (id: string) => {
-      if (!isSafari) return
-      pressed = setTimeout(() => {
-        expandQT(id)
-        window.navigator.vibrate?.(1)
-      }, 475)
-    }
-    const cancelLongPress = () => clearTimeout(pressed)
+const expandedQT = ref("")
+const expandQT = (id: string, event?: MouseEvent) => {
+  event?.preventDefault()
+  if (expandedQT.value === id) expandedQT.value = ""
+  else expandedQT.value = id
+}
+const clickOutside = (id: string) => {
+  if (expandedQT.value === id) expandedQT.value = ""
+}
 
-    return {
-      qtRender: computed(() => bottomColon(QTs.value)),
-      toggleQT,
-      expandedQT,
-      expandQT,
-      longPress,
-      cancelLongPress,
-      clickOutside,
-    }
-  },
-})
+//* ----
+
+let pressed = 0
+const longPress = (id: string) => {
+  if (!isSafari) return
+  pressed = setTimeout(() => {
+    expandQT(id)
+    window.navigator.vibrate?.(1)
+  }, 475)
+}
+const cancelLongPress = () => clearTimeout(pressed)
+
+//* ----
+
+const qtRender = computed(() => bottomColon(QTs.value))
 </script>
 
 <template>

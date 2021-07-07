@@ -1,18 +1,5 @@
-<template>
-  <nav class="w-full fixed bottom-0 flex items-center justify-around bg-background">
-    <RouterLink
-      v-for="route in routes"
-      :key="route.route"
-      :to="route.route"
-      class="h-full flex items-center flex-col justify-center"
-    >
-      <SvgIcon :name="route.icon" class="icon" />
-    </RouterLink>
-  </nav>
-</template>
-
-<script lang="ts">
-import { defineComponent, ref } from "vue"
+<script setup lang="ts">
+import { ref } from "vue"
 import SvgIcon from "./SvgIcon.vue"
 
 interface NavRoute {
@@ -31,15 +18,21 @@ const NAV_ROUTES: NavRoute[] = [
   },
 ]
 
-export default defineComponent({
-  components: { SvgIcon },
-  setup() {
-    return {
-      routes: ref(NAV_ROUTES),
-    }
-  },
-})
+const routes = ref(NAV_ROUTES)
 </script>
+
+<template>
+  <nav class="w-full fixed bottom-0 flex items-center justify-around bg-background">
+    <RouterLink
+      v-for="route in routes"
+      :key="route.route"
+      :to="route.route"
+      class="h-full flex items-center flex-col justify-center"
+    >
+      <SvgIcon :name="route.icon" class="icon" />
+    </RouterLink>
+  </nav>
+</template>
 
 <style lang="scss" scoped>
 nav {
