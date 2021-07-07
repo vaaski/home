@@ -87,7 +87,7 @@ const iconSpin = computed(() => ({
 
       &.slide-enter-active,
       &.slide-leave-active {
-        transition: 200ms;
+        transition: calc(var(--expand-transition) * 2);
       }
 
       &.slide-leave-to,
@@ -101,7 +101,6 @@ const iconSpin = computed(() => ({
   &.expanded {
     width: 100%;
     border: 1px solid currentColor;
-    padding-bottom: 500px;
   }
 
   &.enabled {
